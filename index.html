@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noina67 Arcade Hub</title>
+    <style>
+        /* -------------------------------------------------------------------------
+           1. CORE PAGE STYLING & COLORS
+        ------------------------------------------------------------------------- */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #7dd3fc;
+            background-image: url('/pic/bg2.png'), linear-gradient(to bottom, #A7F6FC, #42F1FF, #8AF7FF, #B8FAFF);
+            background-size: cover;
+            background-attachment: fixed;
+            color: #1e293b;
+        }
+
+        /* -------------------------------------------------------------------------
+           2. CAPSULE NAVIGATION BAR
+        ------------------------------------------------------------------------- */
+        .main-navbar {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            border-radius: 50px;
+            padding: 12px 30px;
+            margin: 20px auto;
+            width: max-content;
+            display: flex;
+            gap: 25px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+        }
+
+        .main-navbar a {
+            text-decoration: none;
+            color: #475569;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .main-navbar a:hover {
+            color: #f472b6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        h1.logo {
+            font-size: 3rem;
+            margin: 40px 0 10px 0;
+            color: #1e293b;
+            letter-spacing: 2px;
+        }
+
+        /* -------------------------------------------------------------------------
+           3. MAIN GAME SECTION
+        ------------------------------------------------------------------------- */
+        .main-game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+            margin-bottom: 80px;
+        }
+
+        .game-selector-grid {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .arcade-card {
+            background: #111827;
+            color: #ffffff;
+            border: 3px dashed #f472b6;
+            padding: 20px;
+            border-radius: 12px;
+            width: 280px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+
+        .arcade-card h3 {
+            margin-top: 0;
+            color: #7dd3fc;
+        }
+
+        .card-options {
+            margin: 15px 0;
+        }
+
+        .card-options select {
+            padding: 5px 10px;
+            border-radius: 6px;
+            border: none;
+            background: #374151;
+            color: white;
+            font-weight: bold;
+        }
+
+        .launch-btn {
+            background: #f472b6;
+            color: white;
+            font-weight: bold;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        .launch-btn:hover {
+            background: #ec4899;
+        }
+
+        #game-arena {
+            width: 100%;
+            max-width: 800px;
+            min-height: 350px;
+            border: 6px solid #111827;
+            border-radius: 16px;
+            background: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .placeholder-text {
+            color: #94a3b8;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .game-box {
+            animation: fadeIn 0.3s ease-in-out;
+            width: 100%;
+        }
+
+        /* -------------------------------------------------------------------------
+           4. OLD GUESS THE NUMBER STYLE INTEGRATION
+        ------------------------------------------------------------------------- */
+        .guess-container {
+            border: solid 2px black;
+            color: white;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+            background: #ff2424;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            box-sizing: border-box;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .guess-container h1 {
+            text-align: center;
+            margin: 10px 0;
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .Mcontainer {
+            border: solid 1.5px black;
+            border-radius: 20px;
+            background-color: #ffffff;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .console {
+            padding: 20px;
+            overflow-y: auto;
+            flex-grow: 1;
+            color: #222222;
+        }
+
+        .console p {
+            margin: 5px 0;
+            line-height: 1.4;
+        }
+
+        .guess-container input {
+            border: solid 1px black;
+            border-radius: 20px;
+            width: calc(100% - 30px);
+            height: 50px;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+            margin-left: 15px;
+            padding: 0 15px;
+            font-size: 16px;
+            background-color: white;
+            color: black;
+        }
+
+        .ad {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .robloxAd {
+            color: yellow;
+            font-weight: bold;
+            text-decoration: underline;
+            font-size: 0.9rem;
+        }
+
+        /* -------------------------------------------------------------------------
+           5. MEMORY GAME REMIX STYLES
+        ------------------------------------------------------------------------- */
+        .pink-game-container {
+            border: solid 4px purple;
+            width: 95%; 
+            max-width: 600px;
+            height: max-content;
+            box-sizing: border-box;
+            padding: 15px;
+            background-image: linear-gradient(to bottom, #facade, #ff63a4);
+            border-radius: 12px;
+            margin: 0 auto;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(var(--grid-cols, 4), 1fr);
+            gap: 8px;
+            width: 100%;
+        }
+        
+        .grid-card {
+            border: none;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            background-image: linear-gradient(to right, #f7f0ac, #acf7f0, #f0acf7);
+            overflow: hidden;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .grid-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .grid-card.flipped img {
+            display: block;
+        }
+
+        .grid-card.flipped {
+            background-image: none;
+            background-color: #fff; 
+        }
+
+        .grid-card.matched {
+            background-image: none;
+            background-color: transparent;
+            pointer-events: none; 
+            border: 2px dashed rgba(255,255,255,0.3);
+        }
+
+        .grid-card.matched img {
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .grid-container {
+                gap: 4px;
+            }
+            .pink-game-container {
+                padding: 8px;
+            }
+        }
+
+        /* -------------------------------------------------------------------------
+           6. OTHER SECTIONS
+        ------------------------------------------------------------------------- */
+        #news-section {
+            background: rgba(255, 255, 255, 0.6);
+            padding: 40px 20px;
+            margin-bottom: 60px;
+            border-radius: 16px;
+        }
+
+        #team-section {
+            margin-bottom: 80px;
+        }
+
+        .team-grid {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .team-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            width: 180px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .team-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            background: #111827;
+            color: #94a3b8;
+            padding: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="main-navbar">
+        <a href="#game-section">🎮 Game</a>
+        <a href="#news-section">📰 News</a>
+        <a href="#team-section">👥 Teams</a>
+    </nav>
+
+    <div class="container">
+        
+        <h1 class="logo">NOINA67</h1>
+        <p style="margin-bottom: 40px; font-weight: 500;">This game is made to troll Sugar-Apple.</p>
+
+        <section id="game-section" class="main-game-area">
+            
+            <div class="game-selector-grid">
+                
+                <div class="arcade-card">
+                    <h3>🔢 Guess the Number</h3>
+                    <div class="card-options">
+                        <label>Level: </label>
+                        <select id="guess-level">
+                            <option value="Easy">Easy (1-10)</option>
+                            <option value="Medium" selected>Medium (1-100)</option>
+                            <option value="Hard">Hard (1-1000)</option>
+                        </select>
+                    </div>
+                    <button class="launch-btn" onclick="launchGuess()">[ LAUNCH GAME ]</button>
+                </div>
+
+                <div class="arcade-card">
+                    <h3>🧠 Memory Match</h3>
+                    <div class="card-options">
+                        <label>Mode: </label>
+                        <select id="memory-mode">
+                            <option value="4x2">4x2 (8 cards)</option>
+                            <option value="4x4">4x4 (16 cards)</option>
+                            <option value="5x6">5x6 (30 cards)</option>
+                            <option value="6x6">6x6 (36 cards - CHAOS)</option> 
+                        </select>
+                    </div>
+                    <button class="launch-btn" onclick="launchMemory()">[ LAUNCH GAME ]</button>
+                </div>
+
+            </div>
+
+            <div id="game-arena">
+                <p class="placeholder-text">👾 Select a game above to power up the machine! 👾</p>
+            </div>
+
+        </section>
+
+        <section id="news-section">
+            <h2>📰 Latest Arcade News</h2>
+            <p><strong>14/06/2026:</strong> This Blueprint Update went live!</p>
+        </section>
+
+        <section id="team-section">
+            <h2>👥 Meet Our Team</h2>
+            <div class="team-grid">
+                <div class="team-card">
+                    <img src="https://www.w3schools.com/howto/img_avatar2.png" alt="Melon">
+                    <h4>Melon Lopez</h4>
+                    <p style="font-size: 0.85rem; color:#64748b;">Developer</p>
+                </div>
+                <div class="team-card">
+                    <img src="https://www.w3schools.com/howto/img_avatar2.png" alt="Wai">
+                    <h4>Wai Indie</h4>
+                    <p style="font-size: 0.85rem; color:#64748b;">Ideator</p>
+                </div>
+                <div class="team-card">
+                    <img src="https://www.instacart.com/image-server/1200x1200/www.instacart.com/assets/domains/product-image/file/large_a1993efe-8eb1-4324-b91e-ef333e567762.jpg" alt="Sugar Apple">
+                    <h4>Sugar Apple</h4>
+                    <p style="font-size: 0.85rem; color:#64748b;">The Victim</p>
+                </div>
+                <div class="team-card">
+                    <img src="https://www.w3schools.com/howto/img_avatar2.png" alt="Paint Brush">
+                    <h4>Paint Brush</h4>
+                    <p style="font-size: 0.85rem; color:#64748b;">Artist</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <div class="container">
+            © 2026 Noina67 Arcade. Engineered cleanly to prevent click fatigue.
+        </div>
+    </footer>
+
+    <script>
+        const arena = document.getElementById('game-arena');
+
+        let hasFlippedCard = false;
+        let lockBoard = false;
+        let firstCard, secondCard;
+
+        /* -------------------------------------------------------------------------
+           INTEGRATED GUESS THE NUMBER ENGINE
+        ------------------------------------------------------------------------- */
+        function launchGuess() {
+            const level = document.getElementById('guess-level').value;
+            
+            let maxNumber = 100;
+            if (level === "Easy") maxNumber = 10;
+            if (level === "Hard") maxNumber = 1000;
+
+            // Generate your perfect secret number based on difficulty matrix
+            let secret = Math.floor(Math.random() * maxNumber) + 1;
+
+            arena.innerHTML = `
+                <div class="game-box">
+                    <div class="guess-container">
+                        <h1>Guess the Number!</h1>
+                        <div class="Mcontainer">
+                            <div class="console" id="guess-console">
+                                <p>Welcome! Guess a number between 1-${maxNumber}...</p>
+                            </div>
+                            <div class="type">
+                                <input type="number" id="guess-input" placeholder="Type here and press Enter">
+                            </div>
+                        </div>
+                        <div class="ad">
+                            <a href="https://www.roblox.com/share?code=b5e529481c78854b91732053b19ffbe6&type=ExperienceDetails&stamp=1780669868037" target="_blank" class="robloxAd">Click here for Roblox something special!</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Setup Event Listener for Input Engine inside the dynamically generated HTML
+            const guessInput = document.getElementById("guess-input");
+            const guessConsole = document.getElementById("guess-console");
+
+            guessInput.addEventListener("keypress", function (e) {
+                if (e.key === "Enter") {
+                    let guess = parseInt(guessInput.value);
+
+                    // Validation processing logic
+                    if (isNaN(guess)) return;
+
+                    if (guess === secret) {
+                        guessConsole.innerHTML += "<p>🎉 Correct! The number was " + secret + "!</p>";
+                    } else if (guess > secret) {
+                        guessConsole.innerHTML += "<p>🔼 Too high! Try again!</p>";
+                    } else {
+                        guessConsole.innerHTML += "<p>🔽 Too low! Try again!</p>";
+                    }
+
+                    guessInput.value = "";  // Flush state
+
+                    // Force viewport auto-scroll down configuration
+                    guessConsole.scrollTop = guessConsole.scrollHeight;
+                }
+            });
+        }
+
+        /* -------------------------------------------------------------------------
+           MEMORY MATCH ENGINE
+        ------------------------------------------------------------------------- */
+        function launchMemory() {
+            const mode = document.getElementById('memory-mode').value;
+            
+            let columns = 4;
+            let rows = 2;
+            
+            if (mode === "4x4") { columns = 4; rows = 4; }
+            if (mode === "5x6") { columns = 5; rows = 6; }
+            if (mode === "6x6") { columns = 6; rows = 6; }
+
+            const totalCards = columns * rows;
+
+            const baseImages = [
+                "/orange.jpg",
+                "/sugar-apple.jpg",
+                "/muscle.jpg",
+                "/potato.jpg",
+                "/troll_face.jpg",
+                "/strange_man.jpg",
+                "/loading_cat.png",
+                "/peas.jpg",
+                "/gorilla-meme.png",
+                "/g1.png",
+                "/grape.jpg",
+                "/dog_meme.png",
+                "/dog2-meme.png",
+                "/67.png",
+                "/ad2.png",
+            ];
+
+            let deck = [];
+            const uniquePairsNeeded = totalCards / 2;
+            
+            for (let i = 0; i < uniquePairsNeeded; i++) {
+                let img = baseImages[i % baseImages.length];
+                deck.push(img);
+                deck.push(img);
+            }
+
+            shuffleDeck(deck);
+
+            let cardsHTML = "";
+            deck.forEach(imgSrc => {
+                cardsHTML += `
+                    <div class="grid-card" data-card-name="${imgSrc}">
+                        <img src="${imgSrc}" alt="card icon">
+                    </div>
+                `;
+            });
+
+            arena.innerHTML = `
+                <div class="game-box">
+                    <h2 style="color:#111827; margin-bottom: 5px;">🧠 Memory Match</h2>
+                    <p style="margin-bottom:15px; font-weight:500;">Grid Mode Size: ${columns}x${rows}</p>
+                    <div class="pink-game-container">
+                        <div class="grid-container" id="game-grid" style="--grid-cols: ${columns};">
+                            ${cardsHTML}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const activeCards = document.querySelectorAll('.grid-card');
+            activeCards.forEach(card => card.addEventListener('click', flipCard));
+            
+            resetStateTracker();
+        }
+
+        function shuffleDeck(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function flipCard() {
+            if (lockBoard) return; 
+            if (this === firstCard) return; 
+
+            this.classList.add('flipped');
+
+            if (!hasFlippedCard) {
+                hasFlippedCard = true;
+                firstCard = this;
+                return;
+            }
+
+            secondCard = this;
+            checkForMatch();
+        }
+
+        function checkForMatch() {
+            let isMatch = firstCard.dataset.cardName === secondCard.dataset.cardName;
+            isMatch ? handleMatchSuccess() : handleMatchFailure();
+        }
+
+        function handleMatchSuccess() {
+            lockBoard = true;
+            setTimeout(() => {
+                firstCard.classList.add('matched');
+                secondCard.classList.add('matched');
+                resetStateTracker();
+            }, 500);
+        }
+
+        function handleMatchFailure() {
+            lockBoard = true;
+            setTimeout(() => {
+                firstCard.classList.remove('flipped');
+                secondCard.classList.remove('flipped');
+                resetStateTracker();
+            }, 1000);
+        }
+
+        function resetStateTracker() {
+            [hasFlippedCard, lockBoard] = [false, false];
+            [firstCard, secondCard] = [null, null];
+        }
+    </script>
+</body>
+</html>
